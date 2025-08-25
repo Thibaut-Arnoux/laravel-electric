@@ -60,6 +60,15 @@
         "test": [
             "@php artisan config:clear --ansi",
             "@php artisan test"
+        ],
+        "ide-helper": [
+            "@php artisan ide-helper:eloquent",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:models -n"
+        ],
+        "clean": [
+            "./vendor/bin/pint -n",
+            "./vendor/bin/phpstan -n"
         ]
     },
     "extra": {
