@@ -22,7 +22,8 @@ services:
         networks:
             - sail
         depends_on:
-            - pgsql
+            pgsql:
+                condition: service_healthy
     pgadmin:
         container_name: sail-electric-pgadmin
         image: dpage/pgadmin4
@@ -36,7 +37,23 @@ services:
         networks:
             - sail
         depends_on:
-            - pgsql
+            pgsql:
+                condition: service_healthy
+    electric:
+        image: docker.io/electricsql/electric:1.1.4
+        container_name: sail-electric
+        environment:
+            DATABASE_URL: 'postgresql://${DB_USERNAME}:${DB_PASSWORD:-secret}@pgsql:5432/${DB_DATABASE}?sslmode=disable'
+            # Not suitable for production. Only use insecure mode in development or if you've otherwise secured the Electric API.
+            # See https://electric-sql.com/docs/guides/security
+            ELECTRIC_INSECURE: true
+        ports:
+            - "3000:3000"
+        networks:
+            - sail
+        depends_on:
+            pgsql:
+                condition: service_healthy
     pgsql:
         image: 'postgres:17'
         ports:
@@ -49,6 +66,9 @@ services:
         volumes:
             - 'sail-pgsql:/var/lib/postgresql/data'
             - './docker/sail/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
+        command:
+            - -c
+            - wal_level=logical
         networks:
             - sail
         healthcheck:
