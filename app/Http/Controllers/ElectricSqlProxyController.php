@@ -24,7 +24,7 @@ class ElectricSqlProxyController extends Controller
         // https://tanstack.com/db/latest/docs/collections/electric-collection#electric-proxy-example
         try {
             $response = Http::timeout(config('services.electric.timeout'))
-                ->get(config('services.electric.url'), $request->query());
+                ->get(config('services.electric.url'), [...$request->query(), ...['secret' => config('services.electric.secret')]]);
 
             return $this->formatResponse($response);
         } catch (RequestException $e) {
