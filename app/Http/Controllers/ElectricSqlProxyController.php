@@ -17,13 +17,14 @@ class ElectricSqlProxyController extends Controller
      */
     public function __invoke(Request $request): JsonResponse
     {
+        // TODO : filter query params forward to electric service
+        // use ELECTRIC_PROTOCOL_QUERY_PARAMS from :
+        // https://github.com/electric-sql/electric/blob/main/packages/typescript-client/src/constants.ts
+        // manage table, where, columns (via FormRequest ?) as it is explain in :
+        // https://tanstack.com/db/latest/docs/collections/electric-collection#electric-proxy-example
         try {
-            $endpoint = $this->buildShapeEndpoint($request->query());
-            $headers = $this->prepareHeaders($request);
-
-            $response = Http::withHeaders($headers)
-                ->timeout(config('services.electric.timeout'))
-                ->get($endpoint);
+            $response = Http::timeout(config('services.electric.timeout'))
+                ->get(config('services.electric.url'), $request->query());
 
             return $this->formatResponse($response);
         } catch (RequestException $e) {
@@ -33,43 +34,16 @@ class ElectricSqlProxyController extends Controller
         }
     }
 
-    /**
-     * @param  array<string, string>  $queryParams
-     */
-    private function buildShapeEndpoint(array $queryParams): string
-    {
-        $endpoint = rtrim(config('services.electric.url'), '/').'/v1/shape';
-
-        if (! empty($queryParams)) {
-            $endpoint .= '?'.http_build_query($queryParams);
-        }
-
-        return $endpoint;
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    private function prepareHeaders(Request $request): array
-    {
-        return collect($request->headers->all())
-            ->except(['host', 'content-length', 'connection', 'accept-encoding'])
-            ->mapWithKeys(function ($value, $key) {
-                return [$key => implode(', ', $value)];
-            })
-            ->toArray();
-    }
-
     private function formatResponse(ClientResponse $response): JsonResponse
     {
+        // headers to remove from response
+        // @see : https://tanstack.com/db/latest/docs/collections/electric-collection#electric-proxy-example
         $headers = collect($response->headers())
-            ->except(['transfer-encoding', 'connection'])
+            ->except(['content-encoding', 'content-length', 'transfer-encoding'])
             ->all();
 
-        $data = $response->json();
-
         return response()->json(
-            $data,
+            $response->json(),
             $response->status()
         )->withHeaders($headers);
     }
