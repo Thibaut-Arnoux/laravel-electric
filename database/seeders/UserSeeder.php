@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
 
         $now = now();
         $pwdHash = Hash::make('password');
-        $total = 100_000;
+        $total = 10_000;
         $chunk = 1_000;
 
         LazyCollection::times($total)
