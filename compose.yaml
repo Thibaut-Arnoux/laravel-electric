@@ -50,7 +50,7 @@ services:
             pgsql:
                 condition: service_healthy
     electric:
-        image: docker.io/electricsql/electric:1.1.7
+        image: docker.io/electricsql/electric:1.1.9
         container_name: sail-electric
         environment:
             DATABASE_URL: 'postgresql://${DB_USERNAME}:${DB_PASSWORD:-secret}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}'

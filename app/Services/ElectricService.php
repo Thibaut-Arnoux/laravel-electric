@@ -12,16 +12,18 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ElectricService
 {
     /**
      * @param  array<string, string>  $query
      */
-    private function get(array $query): JsonResponse
+    private function get(array $query): StreamedResponse|JsonResponse
     {
         try {
             $response = Http::timeout(config('services.electric.timeout'))
+                ->withOptions(['stream' => true])
                 ->get(
                     url: config('services.electric.url'),
                     query: [...$query, 'secret' => config('services.electric.secret')]
@@ -37,18 +39,26 @@ class ElectricService
         }
     }
 
-    private function formatResponse(ClientResponse $response): JsonResponse
+    private function formatResponse(ClientResponse $response): StreamedResponse
     {
         // headers to remove from response
         // @see : https://tanstack.com/db/latest/docs/collections/electric-collection#electric-proxy-example
         $headers = collect($response->headers())
-            ->except(['content-encoding', 'content-length', 'transfer-encoding'])
+            ->except(['content-encoding', 'content-length'])
             ->all();
 
-        return response()->json(
-            data: $response->json(),
-            status: $response->status(),
-        )->withHeaders($headers);
+        // waiting fix from laravel on condition for ob_flush in Illuminate\Routing\ResponseFactory::stream
+        if (! ob_get_level()) {
+            ob_start();
+        }
+
+        return response()->stream(function () use ($response): \Generator {
+            $body = $response->toPsrResponse()->getBody();
+
+            while (! $body->eof()) {
+                yield $body->read(16384);
+            }
+        }, status: $response->status(), headers: $headers);
     }
 
     private function handleRequestException(RequestException $e): JsonResponse
@@ -93,7 +103,7 @@ class ElectricService
     /**
      * @param  array<string, string>  $query
      */
-    public function getUser(array $query): JsonResponse
+    public function getUser(array $query): StreamedResponse|JsonResponse
     {
         $query = [
             'table' => 'users',
