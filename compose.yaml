@@ -21,8 +21,18 @@ services:
             - '.:/var/www/html'
         networks:
             - sail
+        healthcheck:
+            test:
+                - CMD
+                - curl
+                - '-f'
+                - '${APP_URL}/up'
+            retries: 3
+            timeout: 5s
         depends_on:
             pgsql:
+                condition: service_healthy
+            electric:
                 condition: service_healthy
     pgadmin:
         container_name: sail-electric-pgadmin
@@ -40,10 +50,10 @@ services:
             pgsql:
                 condition: service_healthy
     electric:
-        image: docker.io/electricsql/electric:1.1.6
+        image: docker.io/electricsql/electric:1.1.7
         container_name: sail-electric
         environment:
-            DATABASE_URL: 'postgresql://${DB_USERNAME}:${DB_PASSWORD:-secret}@pgsql:5432/${DB_DATABASE}'
+            DATABASE_URL: 'postgresql://${DB_USERNAME}:${DB_PASSWORD:-secret}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}'
             ELECTRIC_SECRET: ${ELECTRIC_SECRET:-secret}
         networks:
             - sail
