@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests\V1;
 
-use App\Enums\ElectricUserColumnsEnum;
 use App\Http\Requests\ElectricRequest;
-use App\Rules\DelimitedExistEnumValues;
+use App\Models\User;
+use App\Rules\DelimitedExistArrayValues;
 
-class ElectricUserRequest extends ElectricRequest
+class IndexUserRequest extends ElectricRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class ElectricUserRequest extends ElectricRequest
     {
         return [
             ...parent::rules(),
-            'columns' => ['sometimes', new DelimitedExistEnumValues(enumUsed: ElectricUserColumnsEnum::class)],
+            'columns' => ['sometimes', new DelimitedExistArrayValues(arrayUsed: User::getShape())],
         ];
     }
 }
