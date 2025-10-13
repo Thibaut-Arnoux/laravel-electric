@@ -23,6 +23,20 @@ services:
             - sail
         depends_on:
             - pgsql
+    pgadmin:
+        container_name: sail-electric-pgadmin
+        image: dpage/pgadmin4
+        ports:
+            - '5050:80'
+        environment:
+            PGADMIN_DEFAULT_EMAIL: '${PGADMIN_EMAIL:-admin@admin.com}'
+            PGADMIN_DEFAULT_PASSWORD: '${PGADMIN_PASSWORD:-admin}'
+        volumes:
+            - pgadmin_data:/var/lib/pgadmin
+        networks:
+            - sail
+        depends_on:
+            - pgsql
     pgsql:
         image: 'postgres:17'
         ports:
@@ -53,4 +67,6 @@ networks:
         driver: bridge
 volumes:
     sail-pgsql:
+        driver: local
+    pgadmin_data:
         driver: local
