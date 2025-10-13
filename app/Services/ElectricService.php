@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Enums\ElectricUserColumnsEnum;
+use App\Models\Item;
 use App\Models\User;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
@@ -114,7 +115,15 @@ class ElectricService
 
         return $this->get($query);
     }
-            'columns' => ElectricUserColumnsEnum::values(),
+
+    /**
+     * @param  array<string, string>  $query
+     */
+    public function getItems(array $query): StreamedResponse|JsonResponse
+    {
+        $query = [
+            'table' => 'items',
+            'columns' => Item::getImplodedShape(),
             ...$query,
         ];
 

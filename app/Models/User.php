@@ -35,11 +35,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * The attributes authorized and exported by default by Eletric.
-     *
-     * @var string[]
-     */
+    /** @var string[] */
     protected static array $shape = ['id', 'name', 'email', 'created_at', 'updated_at'];
 
     /**
