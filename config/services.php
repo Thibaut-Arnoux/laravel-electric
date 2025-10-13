@@ -36,8 +36,9 @@ return [
     ],
 
     'electric' => [
-        'url' => env('ELECTRIC_SQL_URL', 'http://electric:3000/v1/shape'),
-        'timeout' => env('ELECTRIC_SQL_TIMEOUT', 30),
+        'url' => env('ELECTRIC_URL', 'http://electric:3000/v1/shape'),
+        'secret' => env('ELECTRIC_SECRET', ''),
+        'timeout' => env('ELECTRIC_TIMEOUT', 30),
     ],
 
 ];
