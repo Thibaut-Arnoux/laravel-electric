@@ -41,4 +41,11 @@ return [
         'timeout' => env('ELECTRIC_TIMEOUT', 30),
     ],
 
+    'flyff' => [
+        'url' => env('FLYFF_URL', 'https://api.flyff.com'),
+        'timeout' => env('FLYFF_TIMEOUT', 30),
+        'chunk' => env('FLYFF_SCRAPING_CHUNK', 100),
+        'item_endpoint' => env('FLYFF_ITEM_ENDPOINT', '/item'),
+    ],
+
 ];
