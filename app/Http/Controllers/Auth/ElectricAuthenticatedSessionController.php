@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Auth\GenericUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,9 +15,7 @@ class ElectricAuthenticatedSessionController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        Auth::login(new GenericUser([
-            'id' => 1,
-        ]));
+        Auth::loginUsingId(1);
 
         $request->session()->regenerate();
 

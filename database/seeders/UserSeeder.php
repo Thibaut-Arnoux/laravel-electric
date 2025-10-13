@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -16,6 +17,8 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         DB::disableQueryLog();
+
+        User::factory()->create(['name' => 'FlyStack', 'email' => 'flystack@example.com']);
 
         $now = now();
         $pwdHash = Hash::make('password');
