@@ -11,7 +11,7 @@ class StoreItemUserAction
     /**
      * Create a new item-user relationship.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function __invoke(array $data): ItemUser
     {

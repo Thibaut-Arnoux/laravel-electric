@@ -11,7 +11,7 @@ class UpdateItemUserAction
     /**
      * Update the item-user relationship with the provided data.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function __invoke(ItemUser $itemUser, array $data): void
     {

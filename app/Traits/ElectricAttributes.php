@@ -11,6 +11,7 @@ trait ElectricAttributes
     {
         return Schema::getColumnListing((static::make())->getTable());
     }
+
     /**
      * The attributes authorized and exported by default to Eletric.
      *
