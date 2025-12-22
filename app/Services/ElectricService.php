@@ -133,7 +133,7 @@ class ElectricService
     /**
      * @param  array<string, string>  $query
      */
-    public function getFavoriteItems(array $query): StreamedResponse|JsonResponse
+    public function getItemsUser(array $query): StreamedResponse|JsonResponse
     {
         $query = [
             'table' => 'item_user',

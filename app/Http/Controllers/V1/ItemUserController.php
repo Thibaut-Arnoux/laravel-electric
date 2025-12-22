@@ -21,7 +21,7 @@ class ItemUserController extends Controller
      */
     public function index(IndexItemUserRequest $request, ElectricService $electric): StreamedResponse|JsonResponse
     {
-        return $electric->getFavoriteItems(query: $request->safe()->all());
+        return $electric->getItemsUser(query: $request->safe()->all());
     }
 
     /**
