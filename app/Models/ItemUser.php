@@ -4,16 +4,11 @@ namespace App\Models;
 
 use App\Traits\ElectricAttributes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class ItemUser extends Pivot
 {
     use ElectricAttributes;
-
-    /** @use HasFactory<\Database\Factories\ItemUserFactory> */
-    use HasFactory;
-
     use HasUuids;
 
     /** @var list<string> */
