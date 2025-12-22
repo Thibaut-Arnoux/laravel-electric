@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class ItemUserController extends Controller
 {
     /**
-     * Display a listing of favorite items for the authenticated user.
+     * Display a listing of linked items for the authenticated user.
      */
     public function index(IndexItemUserRequest $request, ElectricService $electric): StreamedResponse|JsonResponse
     {
