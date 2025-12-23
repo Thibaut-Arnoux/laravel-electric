@@ -35,8 +35,8 @@ services:
             electric:
                 condition: service_healthy
     pgadmin:
+        image: dpage/pgadmin4:9.11.0
         container_name: sail-electric-pgadmin
-        image: dpage/pgadmin4
         ports:
             - '5050:80'
         environment:
@@ -50,7 +50,7 @@ services:
             pgsql:
                 condition: service_healthy
     electric:
-        image: docker.io/electricsql/electric:1.1.9
+        image: electricsql/electric:1.2.9
         container_name: sail-electric
         environment:
             DATABASE_URL: 'postgresql://${DB_USERNAME}:${DB_PASSWORD:-secret}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}'

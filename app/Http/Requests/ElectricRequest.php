@@ -27,9 +27,10 @@ abstract class ElectricRequest extends FormRequest
     {
         return [
             'offset' => ['required', 'string'],
-            'handle' => ['required_unless:offset,-1', 'string'],
+            'handle' => ['required_unless:offset,-1,now', 'string'],
             'cursor' => ['sometimes', 'nullable', 'string'], // nullable to handle case cursor=& bug on tanstack-db
             'live' => ['sometimes', 'boolean'],
+            'log' => ['sometimes', 'in:full,changes_only'],
         ];
     }
 }
