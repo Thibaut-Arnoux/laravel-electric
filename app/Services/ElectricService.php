@@ -43,10 +43,12 @@ class ElectricService
 
     private function formatResponse(ClientResponse $response): StreamedResponse
     {
-        // headers to remove from response
+        // headers management
         // @see : https://tanstack.com/db/latest/docs/collections/electric-collection#electric-proxy-example
+        // @see : https://electric-sql.com/docs/guides/auth#the-solution-vary-header
         $headers = collect($response->headers())
             ->except(['content-encoding', 'content-length'])
+            ->put('vary', 'cookie')
             ->all();
 
         // waiting fix from laravel on condition for ob_flush in Illuminate\Routing\ResponseFactory::stream
