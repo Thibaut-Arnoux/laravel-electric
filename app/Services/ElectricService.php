@@ -110,9 +110,9 @@ class ElectricService
     public function getUsers(array $query): StreamedResponse|JsonResponse
     {
         $query = [
-            'table' => 'users',
             'columns' => User::getImplodedShape(),
             ...$query,
+            'table' => 'users',
         ];
 
         return $this->get($query);
@@ -124,9 +124,9 @@ class ElectricService
     public function getItems(array $query): StreamedResponse|JsonResponse
     {
         $query = [
-            'table' => 'items',
             'columns' => Item::getImplodedShape(),
             ...$query,
+            'table' => 'items',
         ];
 
         return $this->get($query);
@@ -138,10 +138,10 @@ class ElectricService
     public function getItemsUser(array $query): StreamedResponse|JsonResponse
     {
         $query = [
-            'table' => 'item_user',
             'columns' => ItemUser::getImplodedShape(),
-            'where' => 'user_id = '.auth()->id(),
             ...$query,
+            'table' => 'item_user',
+            'where' => 'user_id = '.auth()->id(),
         ];
 
         return $this->get($query);
