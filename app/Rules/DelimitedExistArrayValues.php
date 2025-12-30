@@ -28,6 +28,7 @@ class DelimitedExistArrayValues implements ValidationRule
         }
 
         $arrayUsed = collect(explode(separator: ',', string: $value))
+            ->map(fn (string $item) => trim($item, '"'))
             ->unique();
 
         $isValid = $arrayUsed->every(fn (string $arrayValue) => in_array(needle: $arrayValue, haystack: $this->arrayUsed));
