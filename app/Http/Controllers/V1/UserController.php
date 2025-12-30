@@ -15,6 +15,6 @@ class UserController extends Controller
      */
     public function __invoke(IndexUserRequest $request, ElectricService $electric): StreamedResponse|JsonResponse
     {
-        return $electric->getUsers(query: $request->safe()->all());
+        return $electric->getUsers(clientParams: $request->safe()->all());
     }
 }

@@ -15,6 +15,6 @@ class ItemController extends Controller
      */
     public function __invoke(IndexItemRequest $request, ElectricService $electric): StreamedResponse|JsonResponse
     {
-        return $electric->getItems(query: $request->safe()->all());
+        return $electric->getItems(clientParams: $request->safe()->all());
     }
 }
