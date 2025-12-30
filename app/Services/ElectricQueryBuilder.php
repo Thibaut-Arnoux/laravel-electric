@@ -49,18 +49,15 @@ class ElectricQueryBuilder
 
     /**
      * Set positional parameters for WHERE clause.
+     * 
+     * Electric's HTTP API accepts parameters via individual query params (params[1]=value, params[2]=value)
+     * which are used to safely substitute $1, $2 placeholders in WHERE clauses.
+     * This prevents SQL injection while maintaining type safety.
      *
      * @param  array<int, mixed>  $params
      */
     public function params(array $params): static
     {
-        /**
-         * @see : https://electric-sql.com/docs/guides/auth
-         * 
-         * Electric's HTTP API accepts parameters via individual query params (params[1]=value, params[2]=value) 
-         * which are used to safely substitute $1, $2 placeholders in WHERE clauses. 
-         * This prevents SQL injection while maintaining type safety.
-         */
         foreach ($params as $index => $value) {
             $this->query['params['.($index + 1).']'] = (string) $value;
         }
@@ -80,10 +77,20 @@ class ElectricQueryBuilder
 
     /**
      * Set JSON-encoded parameters for subset WHERE clause.
+     *
+     * Electric SQL expects a JSON object with numeric string keys mapping to parameter values.
+     * Example: {"1":"value1","2":"value2"} for $1 and $2 placeholders.
+     *
+     * @param  array<int, mixed>  $params
      */
-    public function subsetParams(string $subsetParams): static
+    public function subsetParams(array $params): static
     {
-        $this->query['subset__params'] = $subsetParams;
+        $jsonParams = [];
+        foreach ($params as $index => $value) {
+            $jsonParams[(string) ($index + 1)] = (string) $value;
+        }
+
+        $this->query['subset__params'] = json_encode($jsonParams);
 
         return $this;
     }
