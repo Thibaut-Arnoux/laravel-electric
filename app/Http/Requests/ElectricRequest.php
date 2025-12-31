@@ -23,6 +23,7 @@ abstract class ElectricRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the eletric request
+     * columns and subset__order_by validation are defined in child request classes with model-specific shape validation
      *
      * @see https://github.com/electric-sql/electric/blob/main/packages/typescript-client/src/constants.ts
      * @see https://github.com/electric-sql/electric/blob/main/website/electric-api.yaml

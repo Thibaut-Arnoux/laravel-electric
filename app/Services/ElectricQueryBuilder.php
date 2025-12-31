@@ -49,7 +49,7 @@ class ElectricQueryBuilder
 
     /**
      * Set positional parameters for WHERE clause.
-     * 
+     *
      * Electric's HTTP API accepts parameters via individual query params (params[1]=value, params[2]=value)
      * which are used to safely substitute $1, $2 placeholders in WHERE clauses.
      * This prevents SQL injection while maintaining type safety.
@@ -91,16 +91,6 @@ class ElectricQueryBuilder
         }
 
         $this->query['subset__params'] = json_encode($jsonParams);
-
-        return $this;
-    }
-
-    /**
-     * Set ORDER BY clause for subset snapshots.
-     */
-    public function subsetOrderBy(string $subsetOrderBy): static
-    {
-        $this->query['subset__order_by'] = $subsetOrderBy;
 
         return $this;
     }

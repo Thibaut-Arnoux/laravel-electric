@@ -4,7 +4,8 @@ namespace App\Http\Requests\V1;
 
 use App\Http\Requests\ElectricRequest;
 use App\Models\User;
-use App\Rules\DelimitedExistArrayValues;
+use App\Rules\ValidElectricColumns;
+use App\Rules\ValidElectricOrderBy;
 
 class IndexUserRequest extends ElectricRequest
 {
@@ -25,7 +26,8 @@ class IndexUserRequest extends ElectricRequest
     {
         return [
             ...parent::rules(),
-            'columns' => ['sometimes', new DelimitedExistArrayValues(arrayUsed: User::getShape())],
+            'columns' => ['sometimes', new ValidElectricColumns(allowedColumns: User::getShape())],
+            'subset__order_by' => ['required_with:subset__limit,subset__offset', 'string', 'max:255', new ValidElectricOrderBy(allowedColumns: User::getShape())],
         ];
     }
 }
