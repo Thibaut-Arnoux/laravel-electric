@@ -28,7 +28,7 @@ class ElectricService
                 ->withOptions(['stream' => true])
                 ->get(
                     url: config('services.electric.url'),
-                    query: [...$query, 'secret' => config('services.electric.secret')]
+                    query: $query
                 )->throw();
 
             return $this->formatResponse($response);
@@ -105,44 +105,51 @@ class ElectricService
     }
 
     /**
-     * @param  array<string, string>  $query
+     * Get users shape with validated client parameters.
+     *
+     * @param  array<string, mixed>  $clientParams  Validated client parameters from request
      */
-    public function getUsers(array $query): StreamedResponse|JsonResponse
+    public function getUsers(array $clientParams): StreamedResponse|JsonResponse
     {
-        $query = [
-            'columns' => User::getImplodedShape(),
-            ...$query,
-            'table' => 'users',
-        ];
+        $query = app(ElectricQueryBuilder::class)
+            ->table('users')
+            ->columns(User::getImplodedShape())
+            ->withClientParams($clientParams)
+            ->build();
 
         return $this->get($query);
     }
 
     /**
-     * @param  array<string, string>  $query
+     * Get items shape with validated client parameters.
+     *
+     * @param  array<string, mixed>  $clientParams  Validated client parameters from request
      */
-    public function getItems(array $query): StreamedResponse|JsonResponse
+    public function getItems(array $clientParams): StreamedResponse|JsonResponse
     {
-        $query = [
-            'columns' => Item::getImplodedShape(),
-            ...$query,
-            'table' => 'items',
-        ];
+        $query = app(ElectricQueryBuilder::class)
+            ->table('items')
+            ->columns(Item::getImplodedShape())
+            ->withClientParams($clientParams)
+            ->build();
 
         return $this->get($query);
     }
 
     /**
-     * @param  array<string, string>  $query
+     * Get authenticated user's items with validated client parameters.
+     *
+     * @param  array<string, mixed>  $clientParams  Validated client parameters from request
      */
-    public function getItemsUser(array $query): StreamedResponse|JsonResponse
+    public function getItemsUser(array $clientParams): StreamedResponse|JsonResponse
     {
-        $query = [
-            'columns' => ItemUser::getImplodedShape(),
-            ...$query,
-            'table' => 'item_user',
-            'where' => 'user_id = '.auth()->id(),
-        ];
+        $query = app(ElectricQueryBuilder::class)
+            ->table('item_user')
+            ->columns(ItemUser::getImplodedShape())
+            ->where('user_id = $1')
+            ->params([auth()->id()])
+            ->withClientParams($clientParams)
+            ->build();
 
         return $this->get($query);
     }

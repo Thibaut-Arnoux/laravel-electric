@@ -35,6 +35,8 @@ trait ElectricAttributes
 
     public static function getImplodedShape(string $separator = ','): string
     {
-        return implode(separator: $separator, array: static::getShape());
+        $columns = array_map(fn (string $column) => '"'.$column.'"', static::getShape());
+
+        return implode(separator: $separator, array: $columns);
     }
 }
