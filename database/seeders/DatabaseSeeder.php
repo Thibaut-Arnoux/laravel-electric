@@ -15,15 +15,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         if (app()->isProduction()) {
-            // fake user to auth the application
-            User::factory()->create(['name' => 'FlyStack', 'email' => 'flystack@example.com']);
-
             return;
         }
 
-        $this->call([
-            UserSeeder::class,
-        ]);
-
+        // fake user to auth the application
+        User::factory()->create(['name' => 'FlyStack', 'email' => 'flystack@example.com']);
     }
 }

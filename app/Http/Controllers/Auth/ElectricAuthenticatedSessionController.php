@@ -15,6 +15,7 @@ class ElectricAuthenticatedSessionController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+        // TODO : update migration to uuid with real user
         Auth::loginUsingId(1);
 
         $request->session()->regenerate();

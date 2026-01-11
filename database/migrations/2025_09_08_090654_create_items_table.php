@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -20,7 +19,7 @@ return new class extends Migration
             $table->string('icon');
             $table->integer('class')->nullable();
             $table->integer('level');
-            $table->string('element');
+            $table->string('element')->nullable();
             $table->integer('min_defense')->nullable();
             $table->integer('max_defense')->nullable();
             $table->string('category');
@@ -40,8 +39,6 @@ return new class extends Migration
             $table->jsonb('spawns');
             $table->timestamps();
         });
-
-        Artisan::call('scraping:items');
     }
 
     /**
