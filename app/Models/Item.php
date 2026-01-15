@@ -2,6 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\CategoryEnum;
+use App\Enums\ElementEnum;
+use App\Enums\RarityEnum;
+use App\Enums\SexEnum;
+use App\Enums\SubcategoryEnum;
 use App\Traits\ElectricAttributes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -13,8 +18,6 @@ class Item extends Model
     use HasTranslations;
     use HasUuids;
 
-    protected $casts = ['spawns' => 'array'];
-
     protected $guarded = ['id'];
 
     /** @var string[] */
@@ -22,4 +25,16 @@ class Item extends Model
 
     /** @var string[] */
     public array $translatable = ['name', 'description'];
+
+    protected function casts(): array
+    {
+        return [
+            'spawns' => 'array',
+            'element' => ElementEnum::class,
+            'category' => CategoryEnum::class,
+            'subcategory' => SubcategoryEnum::class,
+            'rarity' => RarityEnum::class,
+            'sex' => SexEnum::class,
+        ];
+    }
 }

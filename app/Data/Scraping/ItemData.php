@@ -2,6 +2,11 @@
 
 namespace App\Data\Scraping;
 
+use App\Enums\CategoryEnum;
+use App\Enums\ElementEnum;
+use App\Enums\RarityEnum;
+use App\Enums\SexEnum;
+use App\Enums\SubcategoryEnum;
 use Spatie\LaravelData\Attributes\MapOutputName;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
@@ -11,7 +16,7 @@ class ItemData extends Data
 {
     /**
      * @param  array<string, string>  $name
-     * @param  array<string, string|null>  $description
+     * @param  array<string, string>  $description
      * @param  array<int, array<string, int>>  $spawns
      */
     public function __construct(
@@ -22,13 +27,13 @@ class ItemData extends Data
         public string $icon,
         public ?int $class,
         public int $level,
-        public string $element,
+        public ?ElementEnum $element,
         public ?int $minDefense,
         public ?int $maxDefense,
-        public string $category,
-        public ?string $subcategory,
-        public string $rarity,
-        public ?string $sex,
+        public CategoryEnum $category,
+        public ?SubcategoryEnum $subcategory,
+        public RarityEnum $rarity,
+        public ?SexEnum $sex,
         public int $stack,
         public ?int $buyPrice,
         public int $sellPrice,
