@@ -30,6 +30,12 @@ class Item extends Model
     {
         return [
             'spawns' => 'array',
+            'abilities' => 'array',
+            'trigger_skill' => 'array',
+            'contents' => 'array',
+            'dismantle' => 'array',
+            'possible_random_stats' => 'array',
+            'location' => 'array',
             'element' => ElementEnum::class,
             'category' => CategoryEnum::class,
             'subcategory' => SubcategoryEnum::class,
