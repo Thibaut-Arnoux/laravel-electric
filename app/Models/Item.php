@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\AttackSpeedEnum;
 use App\Enums\CategoryEnum;
+use App\Enums\ConsumedItemEnum;
 use App\Enums\ElementEnum;
 use App\Enums\RarityEnum;
 use App\Enums\SexEnum;
@@ -30,11 +32,21 @@ class Item extends Model
     {
         return [
             'spawns' => 'array',
+            'abilities' => 'array',
+            'trigger_skill' => 'array',
+            'contents' => 'array',
+            'dismantle' => 'array',
+            'possible_random_stats' => 'array',
+            'location' => 'array',
+            'blinkwing_target' => 'array',
+            'upgrade_levels' => 'array',
             'element' => ElementEnum::class,
             'category' => CategoryEnum::class,
             'subcategory' => SubcategoryEnum::class,
             'rarity' => RarityEnum::class,
             'sex' => SexEnum::class,
+            'attack_speed' => AttackSpeedEnum::class,
+            'consumed_item' => ConsumedItemEnum::class,
         ];
     }
 }
