@@ -2,11 +2,23 @@
 
 namespace App\Data\Scraping;
 
+use App\Data\Scraping\Item\AbilityData;
+use App\Data\Scraping\Item\ContentData;
+use App\Data\Scraping\Item\DismantleData;
+use App\Data\Scraping\Item\LocationData;
+use App\Data\Scraping\Item\PossibleRandomStatData;
+use App\Data\Scraping\Item\SpawnData;
+use App\Data\Scraping\Item\TriggerSkillData;
+use App\Data\Scraping\Item\UpgradeLevelData;
+use App\Enums\AttackSpeedEnum;
 use App\Enums\CategoryEnum;
+use App\Enums\ConsumedItemEnum;
 use App\Enums\ElementEnum;
 use App\Enums\RarityEnum;
 use App\Enums\SexEnum;
 use App\Enums\SubcategoryEnum;
+use Spatie\LaravelData\Attributes\DataCollectionOf;
+use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Attributes\MapOutputName;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
@@ -17,13 +29,13 @@ class ItemData extends Data
     /**
      * @param  array<string, string>  $name
      * @param  array<string, string>  $description
-     * @param  array<int, array<string, int>>  $spawns
-     * @param  array<int, array<string, mixed>>|null  $abilities
-     * @param  array<string, mixed>|null  $triggerSkill
-     * @param  array<int, array<string, mixed>>|null  $contents
-     * @param  array<int, array<string, mixed>>|null  $dismantle
-     * @param  array<int, array<string, mixed>>|null  $possibleRandomStats
-     * @param  array<string, mixed>|null  $location
+     * @param  array<int, SpawnData>  $spawns
+     * @param  array<int, AbilityData>|null  $abilities
+     * @param  array<int, TriggerSkillData>|null  $triggerSkill
+     * @param  array<int, ContentData>|null  $contents
+     * @param  array<int, DismantleData>|null  $dismantle
+     * @param  array<int, PossibleRandomStatData>|null  $possibleRandomStats
+     * @param  array<int, UpgradeLevelData>|null  $upgradeLevels
      */
     public function __construct(
         #[MapOutputName('item_id')] public int $id,
@@ -37,7 +49,7 @@ class ItemData extends Data
         public ?int $maxDefense,
         public ?int $minAttack,
         public ?int $maxAttack,
-        public ?string $attackSpeed,
+        public ?AttackSpeedEnum $attackSpeed,
         public ?float $attackSpeedValue,
         public ?int $attackRange,
         public ?bool $twoHanded,
@@ -58,21 +70,35 @@ class ItemData extends Data
         public bool $durationRealTime,
         public ?int $duration,
         public ?int $transy,
+        #[DataCollectionOf(SpawnData::class)]
         public array $spawns,
+        #[DataCollectionOf(AbilityData::class)]
         public ?array $abilities,
+        #[DataCollectionOf(TriggerSkillData::class)]
         public ?array $triggerSkill,
-        public ?float $triggerSkillProbability,
-        public ?int $consumedMp,
-        public ?string $consumedItem,
+        public ?int $triggerSkillProbability,
+        #[MapInputName('consumedMP')] public ?int $consumedMp,
+        public ?ConsumedItemEnum $consumedItem,
         public ?float $cooldown,
         public ?float $casting,
+        #[DataCollectionOf(ContentData::class)]
         public ?array $contents,
+        #[DataCollectionOf(DismantleData::class)]
         public ?array $dismantle,
+        #[DataCollectionOf(PossibleRandomStatData::class)]
         public ?array $possibleRandomStats,
         public ?int $elementAttack,
-        public ?float $flightSpeed,
+        public ?int $flightSpeed,
         public ?int $guildContribution,
-        public ?array $location,
+        public ?LocationData $location,
         public ?int $minimumTargetItemLevel,
+        public ?LocationData $blinkwingTarget,
+        public ?int $coupleBankSlots,
+        public ?int $coupleCheers,
+        public ?int $coupleTeleports,
+        public ?int $fishingLargeChance,
+        public ?int $gatheringChance,
+        #[DataCollectionOf(UpgradeLevelData::class)]
+        public ?array $upgradeLevels,
     ) {}
 }

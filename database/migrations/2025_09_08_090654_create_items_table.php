@@ -48,7 +48,7 @@ return new class extends Migration
             $table->jsonb('spawns');
             $table->jsonb('abilities')->nullable();
             $table->jsonb('trigger_skill')->nullable();
-            $table->float('trigger_skill_probability')->nullable();
+            $table->integer('trigger_skill_probability')->nullable();
             $table->integer('consumed_mp')->nullable();
             $table->string('consumed_item')->nullable();
             $table->float('cooldown')->nullable();
@@ -57,10 +57,17 @@ return new class extends Migration
             $table->jsonb('dismantle')->nullable();
             $table->jsonb('possible_random_stats')->nullable();
             $table->integer('element_attack')->nullable();
-            $table->float('flight_speed')->nullable();
+            $table->integer('flight_speed')->nullable();
             $table->integer('guild_contribution')->nullable();
             $table->jsonb('location')->nullable();
             $table->integer('minimum_target_item_level')->nullable();
+            $table->jsonb('blinkwing_target')->nullable();
+            $table->integer('couple_bank_slots')->nullable();
+            $table->integer('couple_cheers')->nullable();
+            $table->integer('couple_teleports')->nullable();
+            $table->integer('fishing_large_chance')->nullable();
+            $table->integer('gathering_chance')->nullable();
+            $table->jsonb('upgrade_levels')->nullable();
             $table->timestamps();
         });
     }
