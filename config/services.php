@@ -46,6 +46,7 @@ return [
         'timeout' => env('FLYFF_TIMEOUT', 30),
         'chunk' => env('FLYFF_SCRAPING_CHUNK', 100),
         'item_endpoint' => env('FLYFF_ITEM_ENDPOINT', '/item'),
+        'class_endpoint' => env('FLYFF_CLASS_ENDPOINT', '/class'),
     ],
 
 ];

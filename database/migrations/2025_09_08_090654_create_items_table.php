@@ -17,7 +17,7 @@ return new class extends Migration
             $table->jsonb('name');
             $table->jsonb('description');
             $table->string('icon');
-            $table->integer('class')->nullable();
+            $table->foreignId('class')->nullable()->constrained('player_classes', 'class_id');
             $table->integer('level');
             $table->string('element')->nullable();
             $table->integer('min_defense')->nullable();
